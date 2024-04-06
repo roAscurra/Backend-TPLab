@@ -27,6 +27,14 @@ public class NoticiaService {
     public List<Noticia> obtenerNoticiasPorEmpresa(Integer idEmpresa) {
         return noticiaRepository.findByEmpresaId(idEmpresa);
     }
+    //buscador general
+    public List<Noticia> buscador(String param) throws Exception{
+        try{
+            return noticiaRepository.buscador(param);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
     //eliminar
     public boolean deleteNoticia(Integer id) throws Exception {
         try {

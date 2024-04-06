@@ -39,9 +39,19 @@ public class NoticiaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    // Endpoint buscador
+    @GetMapping("/buscador/{parametro}")
+    public ResponseEntity<?> buscador(@PathVariable String parametro) {
+        try {
+            String parametroMinuscula = parametro.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(noticiaService.buscador(parametroMinuscula));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
+        }
+    }
 
     // Endpoint para obtener las noticias de una empresa por su id
-    @GetMapping("/empresa/{idEmpresa}/noticias")
+    @GetMapping("/noticiasDeEmpresa/{idEmpresa}")
     public List<Noticia> obtenerNoticiasPorEmpresa(@PathVariable Integer idEmpresa) {
         return noticiaService.obtenerNoticiasPorEmpresa(idEmpresa);
     }
@@ -55,9 +65,6 @@ public class NoticiaController {
             throw new Exception(e.getMessage());
         }
     }
-
-
-
 
     // Endpoint para modificar una noticia existente
     @PutMapping("/modificar/{id}")

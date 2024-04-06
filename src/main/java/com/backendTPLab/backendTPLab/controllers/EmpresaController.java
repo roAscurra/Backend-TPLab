@@ -71,7 +71,8 @@ public class EmpresaController {
     @GetMapping("/buscador/{parametro}")
     public ResponseEntity<?> buscador(@PathVariable String parametro) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.buscador(parametro));
+            String parametroMinuscula = parametro.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.buscador(parametroMinuscula));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
         }
@@ -80,7 +81,8 @@ public class EmpresaController {
     @GetMapping("/buscarPorDenominacion/{denominacion}")
     public ResponseEntity<?> buscarPorDenominacion(@PathVariable String denominacion) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByDenominacion(denominacion));
+            String denominacionMinuscula = denominacion.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByDenominacion(denominacionMinuscula));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
         }
@@ -90,7 +92,8 @@ public class EmpresaController {
     @GetMapping("/buscarPorTelefono/{telefono}")
     public ResponseEntity<?> buscarEmpresasPorTelefono(@PathVariable String telefono) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByTelefono(telefono));
+            String telefonoMinuscula = telefono.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByTelefono(telefonoMinuscula));
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
@@ -103,7 +106,8 @@ public class EmpresaController {
     @GetMapping("/buscarPorHorarioAtencion/{horarioAtencion}")
     public ResponseEntity<?> buscarEmpresasPorHorarioAtencion(@PathVariable String horarioAtencion) throws Exception{
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByHorarioAtencion(horarioAtencion));
+            String horarioAtencionMinuscula = horarioAtencion.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByHorarioAtencion(horarioAtencionMinuscula));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
         }
@@ -114,7 +118,8 @@ public class EmpresaController {
     @GetMapping("/buscarPorQuienesSomos/{quienesSomos}")
     public ResponseEntity<?> buscarEmpresasPorQuienesSomos(@PathVariable String quienesSomos) throws Exception{
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByQuienesSomos(quienesSomos));
+            String quienesSomosMinuscula = quienesSomos.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findByQuienesSomos(quienesSomosMinuscula));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
         }
@@ -144,7 +149,8 @@ public class EmpresaController {
     @GetMapping("/buscarPorDomicilio/{domicilio}")
     public ResponseEntity<?> buscarEmpresasPorDomicilio(@PathVariable String domicilio) throws Exception{
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.finByDomicilio(domicilio));
+            String domicilioMinuscula = domicilio.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.finByDomicilio(domicilioMinuscula));
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
         }
@@ -154,7 +160,8 @@ public class EmpresaController {
     @GetMapping("/buscarPorEmail/{email}")
     public ResponseEntity<?> buscarEmpresasPorEmail(@PathVariable String email) throws Exception{
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.finByEmail(email));
+            String emailMinuscula = email.toLowerCase(); // Convertir la entrada a minúsculas
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.finByEmail(emailMinuscula));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
         }
