@@ -68,7 +68,7 @@ public class EmpresaController {
         }
     }
     // Endpoint buscador
-    @GetMapping("/buscar/{parametro}")
+    @GetMapping("/buscador/{parametro}")
     public ResponseEntity<?> buscador(@PathVariable String parametro) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(empresaService.buscador(parametro));
