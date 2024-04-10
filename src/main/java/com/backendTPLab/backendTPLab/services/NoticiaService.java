@@ -6,12 +6,21 @@ import com.backendTPLab.backendTPLab.entities.Noticia;
 import com.backendTPLab.backendTPLab.repositories.EmpresaRepository;
 import com.backendTPLab.backendTPLab.repositories.NoticiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class NoticiaService {
@@ -19,6 +28,11 @@ public class NoticiaService {
     NoticiaRepository noticiaRepository;
     @Autowired
     EmpresaRepository empresaRepository;
+
+//    private final Path imageStorageLocation = Paths.get("src/main/resources/picture");
+private final Path imageStorageLocation = Paths.get("C:\\Users\\Usuario\\Documents\\1 UTN\\CrearNoticia\\picture");
+
+
     //traer todas las noticia
     public List<Noticia> list(){
         return noticiaRepository.findAll();
@@ -50,8 +64,92 @@ public class NoticiaService {
             throw new Exception(e.getMessage());
         }
     }
+    //obtener imagen
+    public Resource cargarImagen(String nombreImagen) throws MalformedURLException {
+        try {
+            Path imagePath = imageStorageLocation.resolve(nombreImagen).normalize();
+            Resource resource = new UrlResource(imagePath.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("No se pudo encontrar la imagen " + nombreImagen);
+            }
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException("Error al cargar la imagen " + nombreImagen, ex);
+        }
+    }
+
+    //subir imagen
+    public String subirImagen(MultipartFile file) throws Exception{
+        try{
+            String fileName = UUID.randomUUID().toString();
+            byte[] bytes = file.getBytes();
+            String fileOriginalName = file.getOriginalFilename();
+
+            long fileSize = file.getSize();
+            long maxFileSize = 5 * 1024 * 1024;
+
+            if(fileSize > maxFileSize){
+                return "File size must be less then or equal 5MB";
+            }
+            if(
+                    !fileOriginalName.endsWith(".jpg") &&
+                            !fileOriginalName.endsWith(".jpeg") &&
+                            !fileOriginalName.endsWith(".png")
+            ){
+                return "Only JPG, JPEG, PNG files are allowed";
+            }
+            String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+            String newFileName = fileName + fileExtension;
+
+//            File folder = new File("src/main/resources/picture");
+            File folder = new File("C:", "Users/Usuario/Documents/1 UTN/CrearNoticia/picture");
+            if(!folder.exists()){
+                folder.mkdirs();
+            }
+//            Path path = Paths.get("src/main/resources/picture/"+newFileName);
+            Path path = Paths.get("C:\\Users\\Usuario\\Documents\\1 UTN\\CrearNoticia\\picture", newFileName);
+
+            Files.write(path, bytes);
+            return newFileName;
+
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
 
     //alta
+//    public Noticia save(NoticiaRequest noticiaRequest, MultipartFile imagen) throws Exception {
+//        try {
+//            Integer idEmpresa = noticiaRequest.getIdEmpresa();
+//            Noticia noticia = noticiaRequest.getNoticia();
+//
+//            // Subir la imagen y obtener el nombre del archivo
+//            String nombreImagen = subirImagen(imagen);
+//
+//            // Obtener la instancia de Empresa correspondiente al idEmpresa
+//            Empresa empresa = empresaRepository.findById(idEmpresa)
+//                    .orElseThrow(() -> new Exception("No se encontró la empresa con el id: " + idEmpresa));
+//
+//            // Establecer la empresa y la imagen en la noticia
+//            noticia.setEmpresa(empresa);
+//            noticia.setImagenNoticia(nombreImagen);
+//
+//            // Guardar la noticia en la base de datos
+//            noticia = noticiaRepository.save(noticia);
+//
+//            // Imprimir información de depuración
+//            System.out.println("Estoy en servicio con el id generado: " + noticia.getId());
+//            System.out.println("Estoy en servicio generado: " + noticia.getTituloNoticia());
+//
+//            return noticia;
+//        } catch (Exception e) {
+//            throw new Exception("Error al guardar la noticia: " + e.getMessage());
+//        }
+//    }
+
     public Noticia save(NoticiaRequest noticiaRequest) throws Exception {
         try {
             Integer idEmpresa = noticiaRequest.getIdEmpresa();

@@ -5,11 +5,16 @@ import com.backendTPLab.backendTPLab.entities.Empresa;
 import com.backendTPLab.backendTPLab.entities.Noticia;
 import com.backendTPLab.backendTPLab.services.EmpresaService;
 import com.backendTPLab.backendTPLab.services.NoticiaService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +32,34 @@ public class NoticiaController {
     @GetMapping
     public List<Noticia> listarNoticias() {
         return noticiaService.list();
+    }
+    @GetMapping("/images/{nombreImagen:.+}")
+    public ResponseEntity<Resource> obtenerImagen(@PathVariable String nombreImagen, HttpServletRequest request) throws MalformedURLException {
+        Resource resource = noticiaService.cargarImagen(nombreImagen);
+        String contentType = null;
+
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (Exception e) {
+            // Log the exception
+        }
+
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(resource);
+    }
+    @PostMapping("/subirImagen")
+    public ResponseEntity<String> subirImagen(@RequestParam("file") MultipartFile file) {
+        try {
+            String mensaje = noticiaService.subirImagen(file);
+            return ResponseEntity.ok(mensaje);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al subir la imagen: " + e.getMessage());
+        }
     }
 
     // Endpoint para obtener una noticia por su ID
@@ -57,6 +90,14 @@ public class NoticiaController {
     }
 
     // Endpoint para agregar una nueva noticia
+//    @PostMapping(path = "/crear",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+//    public ResponseEntity<?> agregarNoticia(@ModelAttribute NoticiaRequest noticiaRequest) {
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(noticiaService.save(noticiaRequest, noticiaRequest.getFile()));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la noticia: " + e.getMessage());
+//        }
+//    }
     @PostMapping("/crear")
     public ResponseEntity<?> agregarNoticia(@RequestBody NoticiaRequest noticiaRequest) throws Exception {
         try {
