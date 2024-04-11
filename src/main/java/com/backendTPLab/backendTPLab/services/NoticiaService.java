@@ -104,12 +104,12 @@ private final Path imageStorageLocation = Paths.get("C:\\Users\\Usuario\\Documen
             String newFileName = fileName + fileExtension;
 
 //            File folder = new File("src/main/resources/picture");
-            File folder = new File("C:", "Users/Usuario/Documents/1 UTN/CrearNoticia/picture");
+            File folder = new File("C:", "Users/Usuario/Documents/1 UTN/4 Cuarto Semestre/Laboratorio 4/TP grupal/Front-TP1Grupal-JavaScript/picture");
             if(!folder.exists()){
                 folder.mkdirs();
             }
 //            Path path = Paths.get("src/main/resources/picture/"+newFileName);
-            Path path = Paths.get("C:\\Users\\Usuario\\Documents\\1 UTN\\CrearNoticia\\picture", newFileName);
+            Path path = Paths.get("C:\\Users\\Usuario\\Documents\\1 UTN\\4 Cuarto Semestre\\Laboratorio 4\\TP grupal/Front-TP1Grupal-JavaScript\\picture", newFileName);
 
             Files.write(path, bytes);
             return newFileName;

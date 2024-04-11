@@ -210,7 +210,7 @@ public class EmpresaController {
     @GetMapping("/latitud/{id}")
     public ResponseEntity<?> obtenerLatitud(@PathVariable int id) {
         try {
-            Double latitud = empresaService.obtenerLatitudPorId(id);
+            Float latitud = empresaService.obtenerLatitudPorId(id);
             return ResponseEntity.ok(latitud);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -220,7 +220,7 @@ public class EmpresaController {
     @GetMapping("/longitud/{id}")
     public ResponseEntity<?> obtenerLongitud(@PathVariable int id) {
         try {
-            Double longitud = empresaService.obtenerLongitud(id);
+            Float longitud = empresaService.obtenerLongitud(id);
             return ResponseEntity.ok(longitud);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

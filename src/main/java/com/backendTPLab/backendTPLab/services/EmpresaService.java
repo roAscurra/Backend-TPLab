@@ -70,14 +70,14 @@ public class EmpresaService {
                     case "email":
                         empresa.setEmail((String) valor);
                         break;
-                    case "horarioDesAtencion":
+                    case "horarioAtencion":
                         empresa.setHorarioAtencion((String) valor);
                         break;
                     case "latitud":
-                        empresa.setLatitud((Double) valor);
+                        empresa.setLatitud((Float) valor);
                         break;
                     case "longitud":
-                        empresa.setLongitud((Double) valor);
+                        empresa.setLongitud((Float) valor);
                         break;
                     case "quienesSomos":
                         empresa.setQuienesSomos((String) valor);
@@ -223,7 +223,7 @@ public class EmpresaService {
         }
     }
     //obtener latitud por id
-    public Double obtenerLatitudPorId(int id) {
+    public Float obtenerLatitudPorId(int id) {
         Optional<Empresa> empresaOptional = empresaRepository.findById(id);
         if (empresaOptional.isPresent()) {
             return empresaOptional.get().getLatitud();
@@ -233,7 +233,7 @@ public class EmpresaService {
         }
     }
     //obtener longitud por id
-    public Double obtenerLongitud(int id) {
+    public Float obtenerLongitud(int id) {
         Optional<Empresa> empresaOptional = empresaRepository.findById(id);
         if (empresaOptional.isPresent()) {
             return empresaOptional.get().getLongitud();

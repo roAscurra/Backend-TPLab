@@ -28,9 +28,9 @@ public class Empresa implements Serializable {
     @Column(name = "QuienesSomos", length = 1024)
     private String quienesSomos;
     @Column(name = "Latitud")
-    private Double latitud;
+    private Float latitud;
     @Column(name = "Longitud")
-    private Double longitud;
+    private Float longitud;
     @Column(name = "Domicilio", length = 256)
     private String domicilio;
     @Column(name = "Email", length = 75)
