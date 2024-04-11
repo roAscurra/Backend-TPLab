@@ -12,6 +12,6 @@ import java.util.List;
 public interface NoticiaRepository extends JpaRepository<Noticia, Integer> {
     @Query("SELECT e FROM Noticia e WHERE e.empresa.id = :idEmpresa")
     public List<Noticia> findByEmpresaId(Integer idEmpresa);
-    @Query("SELECT e FROM Noticia e WHERE LOWER(e.tituloNoticia) LIKE %:param% OR LOWER(e.resumenNoticia) LIKE %:param%")
-    public List<Noticia> buscador(String param);
+    @Query("SELECT e FROM Noticia e WHERE (LOWER(e.tituloNoticia) LIKE %:param% OR LOWER(e.resumenNoticia) LIKE %:param%) AND e.empresa.id = :idEmpresa")
+    public List<Noticia> buscador(String param, int idEmpresa);
 }

@@ -73,11 +73,11 @@ public class NoticiaController {
         }
     }
     // Endpoint buscador
-    @GetMapping("/buscador/{parametro}")
-    public ResponseEntity<?> buscador(@PathVariable String parametro) {
+    @GetMapping("/buscador/{parametro}/{idEmpresa}")
+    public ResponseEntity<?> buscador(@PathVariable String parametro, @PathVariable int idEmpresa) {
         try {
             String parametroMinuscula = parametro.toLowerCase(); // Convertir la entrada a minúsculas
-            return ResponseEntity.status(HttpStatus.OK).body(noticiaService.buscador(parametroMinuscula));
+            return ResponseEntity.status(HttpStatus.OK).body(noticiaService.buscador(parametroMinuscula, idEmpresa));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(("{\"error\": \"" + e.getMessage()+"\"}"));
         }

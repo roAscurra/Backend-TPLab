@@ -42,9 +42,9 @@ private final Path imageStorageLocation = Paths.get("C:\\Users\\Usuario\\Documen
         return noticiaRepository.findByEmpresaId(idEmpresa);
     }
     //buscador general
-    public List<Noticia> buscador(String param) throws Exception{
+    public List<Noticia> buscador(String param, int idEmpresa) throws Exception{
         try{
-            return noticiaRepository.buscador(param);
+            return noticiaRepository.buscador(param, idEmpresa);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
