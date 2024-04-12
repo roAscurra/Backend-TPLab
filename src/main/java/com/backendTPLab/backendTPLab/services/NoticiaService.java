@@ -207,7 +207,10 @@ private final Path imageStorageLocation = Paths.get("C:\\Users\\Usuario\\Documen
                         noticia.setPublicada((Character) valor);
                         break;
                     case "fechaPublicacion":
-                        noticia.setFechaPublicacion((LocalDate) valor);
+                        // Convertir el string de fecha a un objeto LocalDate
+                        LocalDate fechaPublicacion = LocalDate.parse((String) valor);
+                        // Asignar la fecha de publicación a la noticia
+                        noticia.setFechaPublicacion(fechaPublicacion);
                         break;
                     case "empresa": // Cambiado de idEmpresa a empresa
                         // Obtener la empresa actualizada
